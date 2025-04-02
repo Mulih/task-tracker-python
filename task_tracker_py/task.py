@@ -1,4 +1,8 @@
 from datetime import datetime
+import json
+import os
+
+TASK_FILE = os.path.join(os.path.dirname(__file__), 'tasks.json')
 
 class Task:
     def __init__(self, id, description, status="todo",created_at=None, updated_at=None):
@@ -27,3 +31,20 @@ class Task:
             created_at=datetime.fromisoformat(data["created_at"]),
             updated_at=datetime.fromisoformat(data["updated_at"]),
         )
+
+
+def load_tasks():
+    """Load tasks from the JSON file."""
+    if not os.path.exists(TASK_FILE):
+        return []
+    with open(TASK_FILE, 'r') as file:
+        try:
+            return json.load(file)
+        except json.JSONDecodeError:
+            print("Error: Failed to decode JSON. Starting with an empty task list.")
+            return []
+
+def save_tasks(tasks):
+    """Save tasks to the JSON file."""
+    with open(TASK_FILE, 'w') as f:
+        json.dump(tasks, f, indent=4)
