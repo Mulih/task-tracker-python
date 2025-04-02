@@ -37,6 +37,14 @@ def update_task(task_id, status):
             return
     print(f"Task {task_id} not found.")
 
+def delete_task(task_id):
+    """Delete a task from the tasks.json file."""
+    tasks = load_tasks()
+    tasks = [task for task in tasks if task["id"] != task_id]
+    save_tasks(tasks)
+    print(f"Task {task_id} deleted.")
+    
+
 def main():
     """Main function to handle CLI commands."""
     parser = argparse.ArgumentParser(description="Task Tracker CLI")
