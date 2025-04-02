@@ -16,6 +16,26 @@ def add_task(description):
     save_tasks(tasks)
     print(f"Task added: {new_task}")
 
+def list_tasks():
+    """List all tasks from the tasks.json file."""
+    tasks = load_tasks()
+    if not tasks:
+        print("No tasks found.")
+        return
+    for task in tasks:
+        print(f"ID: {task['id']}, Description: {task['Description']}, Status: {task['Status']}")
+    print("Tasks loaded successfully.")
+
+def update_task(task_id, status):
+    """Update the status of a task."""
+    tasks = load_tasks()
+    for task in tasks:
+        if task["id"] == task_id:
+            task["Status"] = status
+            save_tasks(tasks)
+            print(f"Task {task_id} updated to {status}.")
+            return
+    print(f"Task {task_id} not found.")
 
 def main():
     """Main function to handle CLI commands."""
