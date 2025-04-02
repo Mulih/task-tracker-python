@@ -1,48 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import os
-from task import load_tasks, save_tasks, Task
-
-
-def add_task(description):
-    """Add a new task to the tasks.json file."""
-    tasks = load_tasks()
-    new_task = {
-        "id": len(tasks) + 1,
-        "Description": description,
-        "Status": "todo",
-    }
-    tasks.append(new_task)
-    save_tasks(tasks)
-    print(f"Task added: {new_task}")
-
-def list_tasks():
-    """List all tasks from the tasks.json file."""
-    tasks = load_tasks()
-    if not tasks:
-        print("No tasks found.")
-        return
-    for task in tasks:
-        print(f"ID: {task['id']}, Description: {task['Description']}, Status: {task['Status']}")
-    print("Tasks loaded successfully.")
-
-def update_task(task_id, status):
-    """Update the status of a task."""
-    tasks = load_tasks()
-    for task in tasks:
-        if task["id"] == task_id:
-            task["Status"] = status
-            save_tasks(tasks)
-            print(f"Task {task_id} updated to {status}.")
-            return
-    print(f"Task {task_id} not found.")
-
-def delete_task(task_id):
-    """Delete a task from the tasks.json file."""
-    tasks = load_tasks()
-    tasks = [task for task in tasks if task["id"] != task_id]
-    save_tasks(tasks)
-    print(f"Task {task_id} deleted.")
+from task import *
 
 
 def main():
@@ -81,14 +40,14 @@ def main():
         return
 
     commands = {
-        "add": lambda: add_task(args.description),
+        "add": lambda: add_task(args.description, args.status),
         "list": list_tasks,
         "update": lambda: update_task(args.task_id, args.status),
         "delete": lambda: delete_task(args.task_id),
         "help": lambda: parser.print_help(),
     }
 
-    command_function = commands.get(args.command, parser.print_help)
+    command_function = commands.get(args.command, parser.print_help) # Default to help if command not found
     command_function()
 
 
