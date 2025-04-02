@@ -5,11 +5,6 @@
         "Status": "in-progress"
     },
     {
-        "id": 2,
-        "Description": "buyy phone",
-        "Status": "todo"
-    },
-    {
         "id": 3,
         "Description": "buyy RAM",
         "Status": "todo"
