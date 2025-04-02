@@ -2,6 +2,16 @@
     {
         "id": 1,
         "Description": "Buy a shirt",
+        "Status": "in-progress"
+    },
+    {
+        "id": 2,
+        "Description": "buyy phone",
+        "Status": "todo"
+    },
+    {
+        "id": 3,
+        "Description": "buyy RAM",
         "Status": "todo"
     }
 ]

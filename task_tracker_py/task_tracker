@@ -45,13 +45,45 @@ def main():
     # Add "add" command
     add_parser = subparsers.add_parser("add", help="Add a new task")
     add_parser.add_argument("description", type=str, help="Task description")
+    add_parser.add_argument("status", type=str, choices=["todo", "in-progress", "done"], help="Task status")
+
+    # Add "list" command
+    list_parser = subparsers.add_parser("list", help="List all tasks")
+
+    # Add "update" command
+    update_parser = subparsers.add_parser("update", help="Update a task")
+    update_parser.add_argument("task_id", type=int, help="Task ID")
+    update_parser.add_argument("status", type=str, choices=["todo", "in-progress", "done"], help="New status")
+
+    # Add "delete" command
+    delete_parser = subparsers.add_parser("delete", help="Delete a task")
+    delete_parser.add_argument("task_id", type=int, help="Task ID")
+    delete_parser.add_argument("status", type=str, choices=["todo", "in-progress", "done"], help="New status")
+
+    # Add "help" command
+    help_parser = subparsers.add_parser("help", help="Show help message")
+    help_parser.add_argument("command", type=str, help="Command to get help for")
+    help_parser.add_argument("description", type=str, help="Task description")
+    help_parser.add_argument("task_id", type=int, help="Task ID")
+    help_parser.add_argument("status", type=str, choices=["todo", "in-progress", "done"], help="New status")
 
     args = parser.parse_args()
 
-    if args.command == "add":
-        add_task(args.description)
-    else:
+    if not args.command:
         parser.print_help()
+        return
+
+    commands = {
+        "add": lambda: add_task(args.description),
+        "list": list_tasks,
+        "update": lambda: update_task(args.task_id, args.status),
+        "delete": lambda: update_task(args.task_id, args.status),
+        "help": lambda: parser.print_help(),
+    }
+
+    command_function = commands.get(args.command, parser.print_help)
+    command_function()
+
 
 if __name__ == "__main__":
     main()
